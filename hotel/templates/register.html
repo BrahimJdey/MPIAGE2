@@ -1,0 +1,60 @@
+{% extends "base/auth.html" %} {% block auth %}
+<form method="POST" action="/register/">
+  <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+
+  {% if messages %} 
+  {% for messsage in messages %}
+  {% if messsage.tags == 'info' %}
+  <div class="alert alert-info">{{messsage}}</div>
+  {% endif %} 
+  {% if messsage.tags == 'warning' %}
+  <div class="alert alert-danger">{{messsage}}</div>
+  {% endif %} 
+  {% endfor %} 
+  {% endif %}
+
+  <div class="form-floating">
+    <input
+      type="text"
+      class="form-control"
+      id="username"
+      placeholder="Username"
+      name="username"
+      required
+    />
+    <label for="username">Username</label>
+  </div>
+
+  <div class="form-floating my-2">
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      placeholder="Email"
+      name="email"
+      required
+    />
+    <label for="email">Email</label>
+  </div>
+
+  <div class="form-floating my-2">
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      placeholder="Password"
+      name="password"
+      required
+    />
+    <label for="password">Password</label>
+  </div>
+
+  <button
+    class="w-100 btn btn-primary fw-semibold"
+    type="submit"
+    name="register"
+  >
+    Register
+  </button>
+</form>
+{% endblock %}
