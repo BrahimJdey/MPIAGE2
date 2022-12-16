@@ -1,5 +1,36 @@
 {% extends "base/base.html" %}
 
 {% block body %}
-<h1>hello {{name}}</h1>
+<section class="heading text-center">
+    <h1 class="display-5">Pricing</h1>
+    <p class="lead">aaaaaaaaaaa</p>
+    <div class="row gap-4 text-start">
+        <div class="card col" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Single Room</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="/book/1" class="btn btn-primary">Book</a>
+            </div>
+          </div>
+
+          <div class="card col" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Double Room</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="/book/2" class="btn btn-primary">Book</a>
+            </div>
+          </div>
+
+          <div class="card col" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Deluxe Room</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="/book/3" class="btn btn-primary">Book</a>
+            </div>
+          </div>
+    </div>
+</section>
 {% endblock %}

@@ -1,6 +1,6 @@
 # :rocket: Hotel-Booking-System
 
-Hotel booking system made in Django
+Simple hotel room booking system made in Django.
 
 ### Download
 ```shell
