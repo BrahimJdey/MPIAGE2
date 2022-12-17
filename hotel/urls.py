@@ -10,5 +10,6 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('book/', views.book, name='book'),
     path('book/<int:id>', views.bookRoom, name='bookRoom'),
-    #path('book/cancel/<str:id>', views.book, name='book'),
+    path('booking/', views.booking, name='booking'),
+    path('booking/cancel/<str:id>', views.bookCancel, name='bookCancel'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -20,10 +20,35 @@ def book(request):
         return redirect('login')
 
 
+def booking(request):
+    if request.session.get('username', None):
+        userId = User.objects.get(
+            username=request.session['username'])
+        bookingList = Booking.objects.filter(bookedBy=userId)
+        print(bookingList)
+        return render(request, 'booking.html', {"bookingList": bookingList})
+    else:
+        return redirect('login')
+
+
+def bookCancel(request, id):
+    if request.session.get('username', None):
+        userId = User.objects.get(
+            username=request.session['username'])
+        try:
+            room = Booking.objects.get(id=id, bookedBy=userId)
+            room.delete()
+            return render(request, 'bookCancel.html', {"id": id})
+        except:
+            return redirect('booking')
+    else:
+        return redirect('login')
+
+
 def bookRoom(request, id):
     if request.session.get('username', None):
         if id in [1, 2, 3]:
-            print(request.POST)
+            # print(request.POST)
             if request.method == "POST":
                 if 'days' in request.POST and 'price' in request.POST:
                     days = int(request.POST['days'])
@@ -66,12 +91,19 @@ def bookRoom(request, id):
                                     gymCheck + clubCheck + swimmingCheck + gamesCheck)
                     return render(request, 'bookRoom.html', {"id": id, "items": items, "total": total})
                 elif request.method == "POST" and 'book' in request.POST and 'Days' in request.POST:
+                    print(request.POST)
+                    if id == 1:
+                        price = 50
+                    elif id == 2:
+                        price = 100
+                    else:
+                        price = 500
                     userId = User.objects.get(
                         username=request.session['username'])
-                    Days = int(request.POST['Days'])
+                    Days = int(request.POST['Days'])/price
                     Amount = int(request.POST['amount'])
                     Food = True if request.POST['Food'] != '0' else False
-                    Spa = True if request.POST['Spa'] != 0 else False
+                    Spa = True if request.POST['Spa'] != '0' else False
                     Gym = True if request.POST['Gym'] != '0' else False
                     Club = True if request.POST['Club'] != '0' else False
                     Swimming = True if request.POST['Swimming'] != '0' else False

@@ -1,0 +1,31 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+{% if bookingList %}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Days</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b in bookingList %}
+      <tr>
+        <th scope="row">{{b.id}}</th>
+        <td>{{b.days}}</td>
+        <td>$ {{b.amount}}</td>
+        <td><a href="/booking/cancel/{{b.id}}">Cancel</a></td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% else %}
+
+<div class="alert alert-primary" role="alert">
+  No room bookings found.
+</div>
+{%endif%}
+{% endblock %}
