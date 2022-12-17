@@ -13,5 +13,6 @@ $ pip install Django pymysql autopep8 pylint pylint-django
 ```shell
 $ py manage.py makemigrations hotel
 $ py manage.py migrate
+$ py manage.py collectstatic
 $ py manage.py runserver
 ```
