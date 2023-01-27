@@ -1,0 +1,33 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Address</th>
+      <th scope="col">Mobile</th>
+      <th scope="col">Type</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for fours in foursList %}
+    <tr>
+      <th scope="row">{{fours.id}}</th>
+      <th scope="row">{{fours.Name}}</th>
+      <th scope="row">{{fours.address}}</th>
+      <th scope="row">{{fours.mobile}}</th>
+      <th scope="row">{{fours.Type}}</th>
+      <td><a href="/booking/cancel/{{fours.id}}" class="btn btn-dark">Cancel</a></td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+
+
+{% comment %} <div class="alert alert-primary" role="alert"> {% endcomment %}
+</div>
+
+{% endblock %}

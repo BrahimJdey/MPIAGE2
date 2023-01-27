@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     "django.contrib.staticfiles",
     'django.contrib.sites',
-    "hotel",
+    "finanance",
 ]
 
 SITE_ID = 1
@@ -81,11 +81,11 @@ WSGI_APPLICATION = "app.wsgi.application"
 
 pymysql.install_as_MySQLdb()
 DATABASES = {
-    "default": {
+    'default': {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "dhotel",
+        "NAME": "db_finance",
         "USER": "root",
-        "PASWWORD": "",
+        "PASSWORD": "Azerty2022",
         "HOST": "localhost",
         "PORT": "3306"
     }
@@ -120,12 +120,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-#STATIC_URL = '/static/'
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'checkstatic/static/')
-]
+STATIC_URL = '/static/'
+# STATIC_URL = "static/"
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'checkstatic/static/')
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

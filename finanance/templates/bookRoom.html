@@ -69,13 +69,13 @@
                 {% for key, value in items.items %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <h6 class="mb-0">{{key}}</h6>
-                    <span class="text-muted">${{value}}</span>
+                    <span class="text-muted">{{value}} MRU</span>
                 </li>
                 <input type="hidden" name="{{key}}" value="{{value}}">
                 {% endfor %}
                 <li class="list-group-item d-flex justify-content-between align-items-center bg-light">
-                    <h6 class="mb-0">Total (USD)</h6>
-                    <span class="text-muted">${{total}}</span>
+                    <h6 class="mb-0">Total (MRU)</h6>
+                    <span class="text-muted">{{total}} MRU</span>
                     <input type="hidden" name="amount" value="{{total}}">
                 </li>
             </ul>
