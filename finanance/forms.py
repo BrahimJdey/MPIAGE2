@@ -15,6 +15,10 @@ class ClientForm(forms.ModelForm):
     class Meta:
         model=models.Client
         fields=['Name','address','mobile','Type']
+class FourForm(forms.ModelForm):
+    class Meta:
+        model=models.Client
+        fields='__all__'
         
 class TypeForm(forms.ModelForm):
     class Meta:
@@ -24,12 +28,16 @@ class TypeForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model=models.Produit
-        fields=['produit','libelle','quantity','prix']
+        fields=['libelle','quantity','prix']
 
-class FactForm(forms.ModelForm):
+class FactFormCl(forms.ModelForm):
     class Meta:
-        model=models.Facture
-        fields=['code','client','fournisseur','produit','date_facturation','HTaxe','Total']
+        model=models.FactureCl
+        fields='__all__'
+class FactFormFr(forms.ModelForm):
+    class Meta:
+        model=models.FactureFr
+        fields='__all__'
 
 # #address of shipment
 # class AddressForm(forms.Form):

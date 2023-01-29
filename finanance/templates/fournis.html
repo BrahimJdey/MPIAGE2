@@ -20,7 +20,9 @@
       <th scope="row">{{fours.address}}</th>
       <th scope="row">{{fours.mobile}}</th>
       <th scope="row">{{fours.Type}}</th>
-      <td><a href="/booking/cancel/{{fours.id}}" class="btn btn-dark">Cancel</a></td>
+      <td><a class="btn btn-primary btn-xs" href="{% url 'fourn_update' fours.id  %}"><span class="glyphicon glyphicon-edit">Update</span></a></td>
+      <td><a href="{% url 'delete_fourn' fours.id  %}" class="btn btn-dark">Cancel</a></td>
+      <td><a href="{% url 'create_fours' %}" class="btn btn-info">Ajouter</a></td>
     </tr>
     {%endfor%}
   </tbody>

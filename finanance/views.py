@@ -2,17 +2,34 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
-from typing import Type
+# from typing import Type
 from .models import *
-from .forms import *
-# from . import forms
+from .forms import ClientForm,FourForm,FactFormCl,FactFormFr
+from django.urls import reverse_lazy
+from django.views.generic import UpdateView,DeleteView,CreateView
+# from . import form
+
+    
+class ClientCreateView(CreateView):
+    model = Client
+    template_name = 'client_form.html'
+    fields = '__all__'
+    success_url = reverse_lazy('clientList')
+    
+    
+class FoursCreateView(CreateView):
+    model = Fournisseur
+    template_name = 'fourn_form.html'
+    fields = '__all__'
+    success_url = reverse_lazy('foursList')
+
 
 
 
 def index(request):
     if request.session.get('username', None):
         x = request.session['username']
-        return render(request, 'index.html', {"name": x})
+        return render(request, 'finComp/demo3.html', {"name": x})
     else:
         return redirect('login')
 
@@ -25,6 +42,7 @@ def produitList(request):
         return render(request, 'produits.html', {"produitList": produitList})
     else:
         return redirect('login')
+    
 def clientList(request):
     
     clientList = Client.objects.all()
@@ -35,22 +53,101 @@ def foursList(request):
     foursList = Fournisseur.objects.all()
     return render(request, 'fournis.html', {"foursList": foursList})
 
-def facturesList(request):
+# Ajouter
+class FactClCreateView(CreateView):
+    model = FactureCl
+    template_name = 'fact_cl_form.html'
+    fields = '__all__'
+    success_url = reverse_lazy('factCl')
 
-    facturesList = Facture.objects.all()
-    return render(request, 'factures.html', {"facturesList": facturesList})
+class FactFrCreateView(CreateView):
+    model = FactureFr
+    template_name = 'fact_fr_form.html'
+    fields = '__all__'
+    success_url = reverse_lazy('factFr')
+# Affiche
+def factCl(request):
+    
+    facturesList = FactureCl.objects.all()
+    return render(request, 'factCl.html', {"facturesList": facturesList})
 
+def factFr(request):
+    
+    facturesList = FactureFr.objects.all()
+    return render(request, 'factFr.html', {"facturesList": facturesList})
+
+
+# Update
+class FactClUpdateView(UpdateView):
+    model = FactureCl
+    form_class = FactFormCl
+    template_name = 'update_fact_cl.html'
+    success_url = reverse_lazy('factCl')
+
+
+class FactFrUpdateView(UpdateView):
+    model = FactureFr
+    form_class = FactFormFr
+    template_name = 'update_fact_fr.html'
+    success_url = reverse_lazy('factFr')
+ 
+# Delete
+class FactClDeleteView(DeleteView):
+    model = FactureCl
+    template_name = 'factCl_confirm_delete.html'
+    success_url = reverse_lazy('factCl')
+
+class FactFrDeleteView(DeleteView):
+    model = FactureFr
+    template_name = 'factFr_confirm_delete.html'
+    success_url = reverse_lazy('factFr')
+
+# End Fact   
+    
+class ClientUpdateView(UpdateView):
+    model = Client
+    form_class = ClientForm
+    template_name = 'update_client.html'
+    success_url = reverse_lazy('clientList')
+    
+    
+class FournUpdateView(UpdateView):
+    model = Fournisseur
+    form_class = FourForm
+    template_name = 'update_fourn.html'
+    success_url = reverse_lazy('foursList')
+
+
+    
+class ClientDeleteView(DeleteView):
+    model = Client
+    template_name = 'client_confirm_delete.html'
+    success_url = reverse_lazy('clientList')
+    
+class FournDeleteView(DeleteView):
+    model = Fournisseur
+    template_name = 'fours_confirm_delete.html'
+    success_url = reverse_lazy('foursList')
+    
+# def admin_add_facts(request):
+#     factForm=FactForm()
+#     if request.method=='POST':
+#         factForm=FactForm(request.POST, request.FILES)
+#         if factForm.is_valid():
+#             factForm.save()
+#         return HttpResponseRedirect('facturesList')
+#     return render(request,'finance/admin_add_facts.html',{'factForm':factForm})
 
 # @login_required(login_url='adminlogin')
-def update_fact_view(request,pk):
-    fact=models.Facture.objects.get(id=pk)
-    factForm=forms.FactForm(instance=fact)
-    if request.method=='POST':
-        factForm=forms.FactForm(request.POST,request.FILES,instance=fact)
-        if factForm.is_valid():
-            factForm.save()
-            return redirect('facturesList')
-    return render(request,'finanance/admin_update_fact.html',{'factForm':factForm})
+# def update_fact_view(request,pk):
+#     fact=models.Facture.objects.get(id=pk)
+#     factForm=forms.FactForm(instance=fact)
+#     if request.method=='POST':
+#         factForm=forms.FactForm(request.POST,request.FILES,instance=fact)
+#         if factForm.is_valid():
+#             factForm.save()
+#             return redirect('facturesList')
+#     return render(request,'admin_update_fact.html',{'factForm':factForm})
 
 
 
@@ -123,3 +220,20 @@ def login(request):
             messages.warning(request, "account 404")
             redirect('login')
     return render(request, 'login.html', {})
+
+
+# class FactUpdateView(UpdateView):
+    # model = Facture
+    # template_name = 'admin_update_fact.html'
+    # success_url = reverse_lazy('facturesList')
+
+    # def post(self, request, *args, **kwargs):
+    #     fact = self.get_object()
+    #     fact.code = request.POST['code']
+    #     fact.client = request.POST['client']
+    #     fact.fournisseur = request.POST['fournisseur']
+    #     fact.date_facturation = request.POST['date_facturation']
+    #     fact.HTaxe = request.POST['HTaxe']
+    #     fact.Total = request.POST['Total']
+    #     fact.save()
+    #     return redirect(self.success_url)

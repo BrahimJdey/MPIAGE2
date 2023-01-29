@@ -40,9 +40,18 @@ class Fournisseur(models.Model):
     def __str__(self):
         return self.Name
 
-class Facture(models.Model):
+class FactureCl(models.Model):
     code = models.CharField(max_length = 100)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    produit = models.ForeignKey("Produit", on_delete=models.CASCADE)
+    date_facturation = models.DateField()
+    HTaxe = models.FloatField()
+    Total = models.FloatField()
+    
+    def __str__(self):
+        return self.code
+class FactureFr(models.Model):
+    code = models.CharField(max_length = 100)
     fournisseur = models.ForeignKey(Fournisseur, on_delete=models.CASCADE)
     produit = models.ForeignKey("Produit", on_delete=models.CASCADE)
     date_facturation = models.DateField()
@@ -53,7 +62,6 @@ class Facture(models.Model):
         return self.code
     
 class Produit(models.Model):
-    produit = models.CharField(max_length = 100)
     libelle = models.CharField(max_length = 100)
     quantity = models.FloatField()
     prix = models.FloatField()
