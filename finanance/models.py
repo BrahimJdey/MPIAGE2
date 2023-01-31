@@ -43,23 +43,32 @@ class Fournisseur(models.Model):
 class FactureCl(models.Model):
     code = models.CharField(max_length = 100)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    journal = models.CharField(max_length = 100)
     produit = models.ForeignKey("Produit", on_delete=models.CASCADE)
     date_facturation = models.DateField()
     HTaxe = models.FloatField()
-    Total = models.FloatField()
     
     def __str__(self):
         return self.code
+    @property
+    def total(self):
+        Total = ((self.produit.quantity+self.produit.prix) * self.HTaxe) + (self.produit.quantity+self.produit.prix)
+        return Total
+    
 class FactureFr(models.Model):
     code = models.CharField(max_length = 100)
     fournisseur = models.ForeignKey(Fournisseur, on_delete=models.CASCADE)
     produit = models.ForeignKey("Produit", on_delete=models.CASCADE)
+    journal = models.CharField(max_length = 100)
     date_facturation = models.DateField()
     HTaxe = models.FloatField()
-    Total = models.FloatField()
     
     def __str__(self):
         return self.code
+    @property
+    def total(self):
+        Total = -((self.produit.quantity+self.produit.prix) * self.HTaxe) - (self.produit.quantity+self.produit.prix)
+        return Total
     
 class Produit(models.Model):
     libelle = models.CharField(max_length = 100)
@@ -70,3 +79,21 @@ class Produit(models.Model):
     def __str__(self):
         return self.libelle
 
+class Journal(models.Model):
+    name=models.CharField(max_length=40)
+    
+    def __str__(self):
+        return self.name
+class PieceCompt(models.Model):
+    ref = models.FloatField()
+    date_comptable = models.DateField()
+    journal = models.ForeignKey(Journal, on_delete=models.CASCADE)
+    partenaire = models.ForeignKey(Client, on_delete=models.CASCADE)
+    deb = models.FloatField()
+    cred = models.FloatField()
+    @property
+    def total(self):
+        Total = self.deb-self.cred
+        return Total
+    
+    

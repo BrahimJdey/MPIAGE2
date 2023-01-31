@@ -15,6 +15,7 @@ class ClientForm(forms.ModelForm):
     class Meta:
         model=models.Client
         fields=['Name','address','mobile','Type']
+
 class FourForm(forms.ModelForm):
     class Meta:
         model=models.Client
@@ -39,6 +40,11 @@ class FactFormFr(forms.ModelForm):
         model=models.FactureFr
         fields='__all__'
 
+        
+class PieceForm(forms.ModelForm):
+    class Meta:
+        model=models.PieceCompt
+        fields='__all__'
 # #address of shipment
 # class AddressForm(forms.Form):
 #     Email = forms.EmailField()

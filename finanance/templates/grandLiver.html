@@ -1,0 +1,52 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+<h1>Grand Livre</h1>
+<table class="table table-light">
+  <thead>
+    <tr>
+        <th scope="col">Journal</th>
+      <th scope="col">Date</th>
+      <th scope="col">Comminucation</th>
+      <th scope="col">Partenaire</th>
+      <th scope="col">Device</th>
+      <th scope="col">Deb</th>
+      <th scope="col">Cred</th>
+      <th scope="col">Ballance</th>
+      {% comment %} <th scope="col">Action</th> {% endcomment %}
+    </tr>
+    <tbody>
+  </thead>
+    {% for piece in pieces %}
+    <tr>
+        <th scope="row">{{piece.journal}}</th>
+    <th scope="row">{{piece.date_comptable}}</th>
+      <th scope="row">Extorurn de {{piece.id}}</th>
+      <th scope="row">{{piece.partenaire}}</th>
+      <th scope="row"></th>
+      <th scope="row">{{piece.deb}}</th>
+      <th scope="row">{{piece.cred}}</th>
+      <th scope="row">{{piece.total}}</th>
+    </tr>
+    {%endfor%}
+
+    <tr>
+        <th scope="row">Total</th>
+        <td colspan="4"></td>
+        <td colspan="1">{{balance1}}</td>
+        <td colspan="1">{{balance2}}</td>
+        <td colspan="1">{{balance}}</td>
+      </tr>
+  </tbody>
+  
+</table>
+<table>
+  
+</table>
+
+
+
+{% comment %} <div class="alert alert-primary" role="alert"> {% endcomment %}
+</div>
+
+{% endblock %}

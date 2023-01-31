@@ -4,26 +4,10 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
 # from typing import Type
 from .models import *
-from .forms import ClientForm,FourForm,FactFormCl,FactFormFr
+from .forms import ClientForm,FourForm,FactFormCl,FactFormFr,PieceForm
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView,DeleteView,CreateView
 # from . import form
-
-    
-class ClientCreateView(CreateView):
-    model = Client
-    template_name = 'client_form.html'
-    fields = '__all__'
-    success_url = reverse_lazy('clientList')
-    
-    
-class FoursCreateView(CreateView):
-    model = Fournisseur
-    template_name = 'fourn_form.html'
-    fields = '__all__'
-    success_url = reverse_lazy('foursList')
-
-
 
 
 def index(request):
@@ -43,16 +27,62 @@ def produitList(request):
     else:
         return redirect('login')
     
+
+
+    # Clients
+
 def clientList(request):
     
     clientList = Client.objects.all()
     return render(request, 'clients.html', {"clientList": clientList})
 
+class ClientCreateView(CreateView):
+    model = Client
+    template_name = 'client_form.html'
+    fields = '__all__'
+    success_url = reverse_lazy('clientList')
+
+class ClientUpdateView(UpdateView):
+    model = Client
+    form_class = ClientForm
+    template_name = 'update_client.html'
+    success_url = reverse_lazy('clientList')
+
+class ClientDeleteView(DeleteView):
+    model = Client
+    template_name = 'client_confirm_delete.html'
+    success_url = reverse_lazy('clientList')  
+        
+# End Clients
+
+    # Fournisseurs
+        
 def foursList(request):
     
     foursList = Fournisseur.objects.all()
     return render(request, 'fournis.html', {"foursList": foursList})
 
+    
+class FoursCreateView(CreateView):
+    model = Fournisseur
+    template_name = 'fourn_form.html'
+    fields = '__all__'
+    success_url = reverse_lazy('foursList')  
+
+class FournUpdateView(UpdateView):
+    model = Fournisseur
+    form_class = FourForm
+    template_name = 'update_fourn.html'
+    success_url = reverse_lazy('foursList')
+    
+class FournDeleteView(DeleteView):
+    model = Fournisseur
+    template_name = 'fours_confirm_delete.html'
+    success_url = reverse_lazy('foursList')
+# End Fournisseurs
+
+
+# Factures
 # Ajouter
 class FactClCreateView(CreateView):
     model = FactureCl
@@ -102,54 +132,92 @@ class FactFrDeleteView(DeleteView):
     template_name = 'factFr_confirm_delete.html'
     success_url = reverse_lazy('factFr')
 
-# End Fact   
-    
-class ClientUpdateView(UpdateView):
-    model = Client
-    form_class = ClientForm
-    template_name = 'update_client.html'
-    success_url = reverse_lazy('clientList')
-    
-    
-class FournUpdateView(UpdateView):
-    model = Fournisseur
-    form_class = FourForm
-    template_name = 'update_fourn.html'
-    success_url = reverse_lazy('foursList')
+# End Fact
 
 
-    
-class ClientDeleteView(DeleteView):
-    model = Client
-    template_name = 'client_confirm_delete.html'
-    success_url = reverse_lazy('clientList')
-    
-class FournDeleteView(DeleteView):
-    model = Fournisseur
-    template_name = 'fours_confirm_delete.html'
-    success_url = reverse_lazy('foursList')
-    
-# def admin_add_facts(request):
-#     factForm=FactForm()
-#     if request.method=='POST':
-#         factForm=FactForm(request.POST, request.FILES)
-#         if factForm.is_valid():
-#             factForm.save()
-#         return HttpResponseRedirect('facturesList')
-#     return render(request,'finance/admin_add_facts.html',{'factForm':factForm})
+# Piece Journal
 
-# @login_required(login_url='adminlogin')
-# def update_fact_view(request,pk):
-#     fact=models.Facture.objects.get(id=pk)
-#     factForm=forms.FactForm(instance=fact)
-#     if request.method=='POST':
-#         factForm=forms.FactForm(request.POST,request.FILES,instance=fact)
-#         if factForm.is_valid():
-#             factForm.save()
-#             return redirect('facturesList')
-#     return render(request,'admin_update_fact.html',{'factForm':factForm})
+def Pieces(request):
+    
+    pieces = PieceCompt.objects.all()
+    facturesList = FactureFr.objects.all()
+    facturesClList = FactureCl.objects.all()
+    # piece =None
+    Total1=0
+    Total2=0
+    Total3=0
+    Total=0
+    for p in pieces:
+                Total1=Total1+p.total 
+    for f2 in facturesClList:
+                Total2=Total2+f2.total
+    for f in facturesList:
+        Total3=Total3+f.total 
+    
+    Total = Total1 + Total2 + Total3
+    return render(request, 'pieces.html', {"pieces": pieces,"facturesList":facturesList,"facturesClList":facturesClList,'Total':Total})
 
+class PieceCreateView(CreateView):
+    model = PieceCompt
+    template_name = 'piece_form.html'
+    fields = '__all__'
+    success_url = reverse_lazy('pieces')
 
+class PieceUpdateView(UpdateView):
+    model = PieceCompt
+    form_class = PieceForm
+    template_name = 'update_piece.html'
+    success_url = reverse_lazy('pieces')
+
+class PieceDeleteView(DeleteView):
+    model = PieceCompt
+    template_name = 'piece_confirm_delete.html'
+    success_url = reverse_lazy('pieces')  
+        
+# End Pieces   
+
+# Ecriture Comptable
+def EcritureComp(request):
+    
+    pieces = PieceCompt.objects.all()
+    facturesList = FactureFr.objects.all()
+    facturesClList = FactureCl.objects.all()
+    # piece =None
+    Total1=0
+    Total2=0
+    Total3=0
+    Total4=0
+    Total5=0
+    Total=0
+    for p in pieces:
+                Total1=Total1+p.deb 
+                Total4=Total4+p.cred
+    for f2 in facturesClList:
+                Total2=Total2+f2.total
+    for f in facturesList:
+        Total3=Total3+f.total 
+    
+    Total = Total1 + Total2
+    Total5 = Total4 - Total3
+    return render(request, 'ecriture.html', {"pieces": pieces,"facturesList":facturesList,"facturesClList":facturesClList,'Total':Total,'Total5':Total5})
+class EcritUpdateView(UpdateView):
+    model = PieceCompt
+    form_class = PieceForm
+    template_name = 'update_piece.html'
+    success_url = reverse_lazy('ecriture')
+
+# End Ecriture
+def GL(request):
+    pieces = None
+    balance1 = 0
+    balance2 = 0
+    balance = 0
+    pieces = PieceCompt.objects.all()
+    for p in pieces:
+            balance1=balance1+p.deb
+            balance2=balance2+p.cred
+            balance=balance+p.deb -p.cred
+    return render(request, 'grandLiver.html', {"pieces": pieces, 'balance1':balance1,'balance2':balance2,'balance':balance})
 
 def logout(request):
     for key in list(request.session.keys()):
@@ -220,20 +288,3 @@ def login(request):
             messages.warning(request, "account 404")
             redirect('login')
     return render(request, 'login.html', {})
-
-
-# class FactUpdateView(UpdateView):
-    # model = Facture
-    # template_name = 'admin_update_fact.html'
-    # success_url = reverse_lazy('facturesList')
-
-    # def post(self, request, *args, **kwargs):
-    #     fact = self.get_object()
-    #     fact.code = request.POST['code']
-    #     fact.client = request.POST['client']
-    #     fact.fournisseur = request.POST['fournisseur']
-    #     fact.date_facturation = request.POST['date_facturation']
-    #     fact.HTaxe = request.POST['HTaxe']
-    #     fact.Total = request.POST['Total']
-    #     fact.save()
-    #     return redirect(self.success_url)

@@ -1,6 +1,10 @@
 {% extends "base/base.html" %}
 
 {% block body %}
+<h1>Clients Factures</h1>
+
+<a href="{% url 'create_factCl' %}" class="btn btn-success" style="width: max-content;">Ajouter</a>
+
 <table class="table">
   <thead>
     <tr>
@@ -23,10 +27,10 @@
       <th scope="row">{{fact.produit}}</th>
       <th scope="row">{{fact.date_facturation}}</th>
       <th scope="row">{{fact.HTaxe}}</th>
-      <th scope="row">{{fact.Total}}</th>
+      <th scope="row">{{fact.total}}</th>
       <td><a class="btn btn-primary btn-xs" href="{% url 'factCl_update' fact.id  %}"><span class="glyphicon glyphicon-edit">Update</span></a></td>
-      <td><a href="{% url 'delete_factCl' fact.id  %}" class="btn btn-dark">Delete</a></td>
-      <td><a href="{% url 'create_factCl' %}" class="btn btn-info">Ajouter</a></td>
+      <td><a href="{% url 'delete_factCl' fact.id  %}" class="btn btn-danger">Delete</a></td>
+      {% comment %} <td><a href="{% url '' %}" class="btn btn-info">Ajouter</a></td> {% endcomment %}
     </tr>
     {%endfor%}
   </tbody>
